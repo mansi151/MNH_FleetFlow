@@ -33,6 +33,14 @@ const User = sequelize.define(
             type: DataTypes.JSONB,
             defaultValue: [],
         },
+        resetPasswordToken: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        resetPasswordExpires: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
     },
     {
         tableName: "users",

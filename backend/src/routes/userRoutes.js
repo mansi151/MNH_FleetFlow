@@ -16,6 +16,14 @@ const router = API.configRoute("/user")
     .asPOST(AuthController.logout)
     .userMiddlewares(auth)
     .build()
+
+    .addPath("/forgot-password")
+    .asPOST(AuthController.forgotPassword)
+    .build()
+
+    .addPath("/reset-password")
+    .asPOST(AuthController.resetPassword)
+    .build()
     .getRouter();
 
 module.exports = router;

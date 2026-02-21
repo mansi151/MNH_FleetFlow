@@ -58,6 +58,41 @@ class UserService {
         new ProjectionBuilder(async () => {
             return await User.findByPk(id);
         });
+
+    static generateResetToken = async (email) => {
+        const user = await User.findOne({ where: { email: email.toLowerCase().trim() } });
+        if (!user) throw new Error("User not found");
+
+        const token = require("crypto").randomBytes(20).toString("hex");
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+
+        return token;
+    };
+
+    static resetUserPassword = async (token, newPassword) => {
+        const { Op } = require("sequelize");
+        const user = await User.findOne({
+            where: {
+                resetPasswordToken: token,
+                resetPasswordExpires: { [Op.gt]: Date.now() }
+            }
+        });
+
+        if (!user) throw new Error("Password reset token is invalid or has expired");
+
+        if (newPassword.length < 7)
+            throw new ValidationError("Password too short");
+
+        user.password = await bcrypt.hash(newPassword, 8);
+        user.resetPasswordToken = null;
+        user.resetPasswordExpires = null;
+        user.tokens = []; // Clear tokens for security
+        await user.save();
+
+        return user;
+    };
 }
 
 /**

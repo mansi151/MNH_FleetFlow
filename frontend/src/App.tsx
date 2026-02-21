@@ -12,6 +12,8 @@ import MaintenanceLogs from './pages/MaintenanceLogs';
 import DriverProfiles from './pages/DriverProfiles';
 import ExpenseLog from './pages/ExpenseLog';
 import Analytics from './pages/Analytics';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Navigation from './components/Navigation';
 import { useAppSelector } from './store/hooks';
 import { selectIsAuthenticated, selectUserRole } from './store/slices/authSlice';
@@ -51,6 +53,8 @@ const App: React.FC = () => {
                 {/* Public */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 {/* Protected – all authenticated users */}
                 <Route path="/dashboard" element={

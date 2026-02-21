@@ -213,6 +213,15 @@ const Login: React.FC = () => {
                             {formik.touched.password && formik.errors.password && (
                                 <div className="text-danger small mt-1">{formik.errors.password}</div>
                             )}
+
+                            <div style={{ textAlign: 'right', marginTop: 8 }}>
+                                <Link
+                                    to="/forgot-password"
+                                    style={{ color: '#6b7280', textDecoration: 'none', fontSize: 13, fontWeight: 500 }}
+                                >
+                                    Forgot Password?
+                                </Link>
+                            </div>
                         </Form.Group>
 
                         {/* Submit */}

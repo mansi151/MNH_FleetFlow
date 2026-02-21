@@ -43,3 +43,24 @@ exports.getProfile = async (req, res) => {
     delete obj.tokens;
     return obj;
 };
+
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const token = await UserService.generateResetToken(email);
+        // In a real app, send this token via email. For now, we return it.
+        return { message: "Reset token generated", token };
+    } catch (e) {
+        throw new ValidationError("User not found with that email");
+    }
+};
+
+exports.resetPassword = async (req, res) => {
+    const { token, newPassword } = req.body;
+    try {
+        await UserService.resetUserPassword(token, newPassword);
+        return { message: "Password reset successful" };
+    } catch (e) {
+        throw new ValidationError(e.message);
+    }
+};

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Col, Card, Badge, Table, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Table, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { fetchVehicles, selectAllVehicles } from '../store/slices/vehicleSlice';
 import type { Vehicle } from '../store/slices/vehicleSlice';
@@ -8,6 +9,7 @@ import type { Trip } from '../store/slices/tripSlice';
 import { FiTruck, FiTool, FiActivity, FiPackage } from 'react-icons/fi';
 
 const Dashboard: React.FC = () => {
+    const navigate = useNavigate();
     const dispatch: any = useAppDispatch();
     const vehicles = useAppSelector(selectAllVehicles);
     const trips = useAppSelector(selectAllTrips);
@@ -26,7 +28,17 @@ const Dashboard: React.FC = () => {
 
     return (
         <Container fluid className="mt-4 px-4">
-            <h2 className="mb-4 fw-bold">Command Center</h2>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="fw-bold mb-0" style={{ color: '#F26B8A' }}>Dashboard</h2>
+                <div className="d-flex gap-2">
+                    <Button variant="outline-primary" className="rounded-3 shadow-sm" onClick={() => navigate('/vehicles')}>
+                        <FiTruck className="me-2" />Add Vehicle
+                    </Button>
+                    <Button variant="primary" className="rounded-3 shadow-sm px-4" onClick={() => navigate('/dispatcher')}>
+                        <FiActivity className="me-2" />Add Trip
+                    </Button>
+                </div>
+            </div>
 
             {/* KPI Cards */}
             <Row className="mb-4 g-4">
@@ -101,7 +113,6 @@ const Dashboard: React.FC = () => {
                                         <th>Route</th>
                                         <th>Status</th>
                                         <th>Load</th>
-                                        <th className="pe-4 text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -128,11 +139,6 @@ const Dashboard: React.FC = () => {
                                                 </Badge>
                                             </td>
                                             <td>{trip.cargoWeight} kg</td>
-                                            <td className="pe-4 text-center">
-                                                <button className="btn btn-sm btn-outline-primary border-0 rounded-circle p-2">
-                                                    <FiActivity />
-                                                </button>
-                                            </td>
                                         </tr>
                                     ))}
                                     {trips.length === 0 && (
@@ -150,19 +156,9 @@ const Dashboard: React.FC = () => {
                 <Col lg={4}>
                     <Card className="border-0 shadow-sm rounded-4 h-100">
                         <Card.Header className="bg-transparent border-0 py-3">
-                            <h5 className="mb-0 fw-bold">Regional Distribution</h5>
+                            <h5 className="mb-0 fw-bold">Vehicle Distribution</h5>
                         </Card.Header>
                         <Card.Body>
-                            <Form.Group className="mb-3">
-                                <Form.Label className="small fw-bold text-secondary">Quick Filter</Form.Label>
-                                <Form.Select className="rounded-3 border-0 bg-light">
-                                    <option>All Regions</option>
-                                    <option>North Segment</option>
-                                    <option>Central Distribution</option>
-                                    <option>South Logistics</option>
-                                </Form.Select>
-                            </Form.Group>
-
                             <div className="mt-4">
                                 <div className="d-flex justify-content-between mb-2">
                                     <span className="small">Trucks</span>
