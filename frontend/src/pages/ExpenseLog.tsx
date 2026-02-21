@@ -10,11 +10,11 @@ import { EXPENSES, LOG_EXPENSE, TRIPS } from '../api/apiEndPoints';
 interface TripExpense {
     id: string;
     tripId: {
-        _id: string; startLocation: string; endLocation: string; cargoWeight?: number;
+        id: string; startLocation: string; endLocation: string; cargoWeight?: number;
         startOdometer?: any;
         endOdometer?: any
     } | any;
-    vehicleId: { _id: string; name: string; licensePlate: string } | string | null;
+    vehicleId: { id: string; name: string; licensePlate: string } | string | null;
     driverName?: string;
     distance?: number;
     expenseType: 'Fuel' | 'Maintenance' | 'Toll' | 'Other';
@@ -123,7 +123,7 @@ const ExpenseLog: React.FC = () => {
     const exportCSV = () => {
         const headers = 'Trip ID,Driver,Distance,Fuel Expense,Misc Expense,Status\n';
         const rows = filtered.map(e => {
-            const tripId = e.tripId?._id?.slice(-5).toUpperCase() || '—';
+            const tripId = e.tripId?.id?.slice(-5).toUpperCase() || '—';
             return `${tripId},${e.driverName || '—'},${e.distance || 0} km,${e.amount},${e.miscAmount || 0},${e.status}`;
         }).join('\n');
         const blob = new Blob([headers + rows], { type: 'text/csv' });
@@ -250,12 +250,12 @@ const ExpenseLog: React.FC = () => {
                                     value={formData.tripId}
                                     onChange={e => {
                                         const tid = e.target.value;
-                                        const selectedTrip = trips.find(t => String((t as any)._id || (t as any).id) === tid);
+                                        const selectedTrip = trips.find(t => String(t.id) === tid);
                                         setFormData({
                                             ...formData,
                                             tripId: tid,
                                             driverName: (selectedTrip as any)?.driver?.name || (selectedTrip as any)?.driverName || '',
-                                            vehicleId: (selectedTrip as any)?.vehicleId?._id || (selectedTrip as any)?.vehicleId?.id || (selectedTrip as any)?.vehicleId || ''
+                                            vehicleId: (selectedTrip as any)?.vehicleId?.id || (selectedTrip as any)?.vehicleId || ''
                                         });
                                         console.log("selectedTripselectedTrip", e.target.value)
                                     }}

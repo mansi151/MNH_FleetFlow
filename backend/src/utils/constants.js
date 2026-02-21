@@ -36,7 +36,7 @@ const TableNames = (function () {
 
 const TableFields = (function () {
     function TableFields() { }
-    TableFields.ID = "_id";
+    TableFields.ID = "id";
     TableFields.username = "username";
     TableFields.email = "email";
     TableFields.password = "password";

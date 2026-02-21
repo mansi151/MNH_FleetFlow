@@ -22,7 +22,6 @@ const sequelize = new Sequelize(
 
 /**
  * Initialise connection + sync all models (creates tables if missing).
- * The callback is called once the DB is ready – same interface as the old mongoose.js.
  */
 const initConnection = async (callback) => {
     try {

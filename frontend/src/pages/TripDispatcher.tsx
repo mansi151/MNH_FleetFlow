@@ -16,7 +16,6 @@ import APICallService from '../api/apiCallService';
 import { DRIVERS } from '../api/apiEndPoints';
 
 interface DriverProfile {
-    _id?: string;
     id: number;
     name: string;
     driverStatus: string;
@@ -66,7 +65,7 @@ const TripDispatcher: React.FC = () => {
 
     const availableVehicles = vehicles.filter((v: Vehicle) => v.status === 'Available');
     const selectedVehicle = vehicles.find((v: Vehicle) =>
-        String(v._id || v.id) === formData.vehicleId
+        String(v.id) === formData.vehicleId
     );
 
     // Only Off Duty drivers with valid licenses can be assigned
@@ -126,7 +125,7 @@ const TripDispatcher: React.FC = () => {
 
     const handleComplete = (trip: Trip) => {
         const vId = typeof trip.vehicleId === 'object' ? (trip.vehicleId as any)?.id : trip.vehicleId;
-        const v = vehicles.find(v => String(v.id || (v as any)._id) === String(vId));
+        const v = vehicles.find(v => String(v.id) === String(vId));
         setFinalOdo(v?.odometer || 0);
         setFinishingTrip(trip);
         setShowCompleteModal(true);
@@ -134,7 +133,7 @@ const TripDispatcher: React.FC = () => {
 
     const handleConfirmComplete = async () => {
         if (!finishingTrip) return;
-        const tid = String(finishingTrip._id || finishingTrip.id);
+        const tid = String(finishingTrip.id);
         setActionLoading(tid);
         try {
             await dispatch(completeTrip({ id: tid, odometer: finalOdo })).unwrap();
@@ -148,7 +147,7 @@ const TripDispatcher: React.FC = () => {
     };
 
     const handleCancel = async (trip: Trip) => {
-        const tid = String(trip._id || trip.id);
+        const tid = String(trip.id);
         setActionLoading(tid);
         try {
             await dispatch(cancelTrip(tid)).unwrap();
@@ -163,16 +162,16 @@ const TripDispatcher: React.FC = () => {
     const getTripDriver = (trip: Trip) => {
         if (typeof trip.driverId === 'object' && trip.driverId?.name)
             return trip.driverId.name;
-        const dId = String(typeof trip.driverId === 'object' ? (trip.driverId?._id || trip.driverId?.id) : trip.driverId);
-        const profile = drivers.find(d => String(d._id || d.id) === dId);
+        const dId = String(typeof trip.driverId === 'object' ? (trip.driverId?.id) : trip.driverId);
+        const profile = drivers.find(d => String(d.id) === dId);
         return profile?.name || '—';
     };
 
     const getTripVehicle = (trip: Trip) => {
         if (typeof trip.vehicleId === 'object' && trip.vehicleId?.name)
             return trip.vehicleId.name;
-        const vId = typeof trip.vehicleId === 'object' ? (trip.vehicleId as any)?._id || (trip.vehicleId as any)?.id : trip.vehicleId;
-        const v = vehicles.find(v => String(v._id || v.id) === String(vId));
+        const vId = typeof trip.vehicleId === 'object' ? (trip.vehicleId as any)?.id : trip.vehicleId;
+        const v = vehicles.find(v => String(v.id) === String(vId));
         return v?.name || '—';
     };
 
@@ -279,7 +278,7 @@ const TripDispatcher: React.FC = () => {
                         </thead>
                         <tbody>
                             {filteredTrips.map((trip, idx) => {
-                                const tid = String(trip._id || trip.id);
+                                const tid = String(trip.id);
                                 const busy = actionLoading === tid;
                                 return (
                                     <tr key={tid}>

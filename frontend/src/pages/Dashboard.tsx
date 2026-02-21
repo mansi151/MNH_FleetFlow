@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
                                 </thead>
                                 <tbody>
                                     {trips.slice(0, 5).map((trip: Trip) => (
-                                        <tr key={trip._id}>
+                                        <tr key={trip.id}>
                                             <td className="ps-4">
                                                 <div className="d-flex align-items-center">
                                                     <div className="fw-bold">{(trip.vehicle as any)?.name || 'N/A'}</div>

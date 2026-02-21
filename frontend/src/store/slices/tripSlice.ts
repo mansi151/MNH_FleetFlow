@@ -4,8 +4,7 @@ import APICallService from '../../api/apiCallService';
 import { TRIPS, CREATE_TRIP, COMPLETE_TRIP, CANCEL_TRIP } from '../../api/apiEndPoints';
 
 export interface Trip {
-    _id: string;
-    id?: number;
+    id: number;
     vehicleId: any;
     driverId: any;
     cargoWeight: number;
@@ -15,7 +14,7 @@ export interface Trip {
     estimatedFuelCost?: number;
     dispatchDate?: string;
     completionDate?: string;
-    vehicle?:any;
+    vehicle?: any;
 }
 
 interface TripState {
@@ -76,13 +75,13 @@ const tripSlice = createSlice({
             })
             .addCase(completeTrip.fulfilled, (state, action: PayloadAction<Trip>) => {
                 const idx = state.trips.findIndex(t =>
-                    (t._id || String(t.id)) === (action.payload._id || String(action.payload.id))
+                    String(t.id) === String(action.payload.id)
                 );
                 if (idx >= 0) state.trips[idx] = { ...state.trips[idx], status: 'Completed' };
             })
             .addCase(cancelTrip.fulfilled, (state, action: PayloadAction<Trip>) => {
                 const idx = state.trips.findIndex(t =>
-                    (t._id || String(t.id)) === (action.payload._id || String(action.payload.id))
+                    String(t.id) === String(action.payload.id)
                 );
                 if (idx >= 0) state.trips[idx] = { ...state.trips[idx], status: 'Cancelled' };
             });

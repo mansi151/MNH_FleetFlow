@@ -12,7 +12,7 @@ import { FiSearch, FiTool, FiAlertCircle } from 'react-icons/fi';
 
 interface MaintenanceLog {
     id: string;
-    vehicleId: { _id: string; name: string; licensePlate: string };
+    vehicleId: { id: string; name: string; licensePlate: string };
     description: string;
     serviceDate: string;
     cost: number;
@@ -200,7 +200,7 @@ const MaintenanceLogs: React.FC = () => {
                         >
                             <option value="">Select vehicle...</option>
                             {vehicles.filter((v: Vehicle) => v.status !== 'In Shop').map((v: Vehicle) => (
-                                <option key={v.id || (v as any)._id} value={String(v.id || (v as any)._id)}>{v.name} ({v.licensePlate})</option>
+                                <option key={v.id} value={String(v.id)}>{v.name} ({v.licensePlate})</option>
                             ))}
                         </Form.Select>
                     </Form.Group>

@@ -32,10 +32,8 @@ class VehicleService {
         const vehicle = await Vehicle.findByPk(id);
         if (!vehicle) throw new ValidationError("Vehicle not found");
 
-        // Prevent accidental PK updates
         const cleanUpdates = { ...updates };
         delete cleanUpdates.id;
-        delete cleanUpdates._id;
 
         return await vehicle.update(cleanUpdates);
     };

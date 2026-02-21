@@ -8,8 +8,8 @@ import { VEHICLES, TRIPS, EXPENSES } from '../api/apiEndPoints';
 import type { Vehicle } from '../store/slices/vehicleSlice';
 
 interface Expense {
-    _id: string;
-    vehicleId: { _id: string; name: string; licensePlate: string } | string;
+    id: string;
+    vehicleId: { id: string; name: string; licensePlate: string } | string;
     expenseType: string;
     amount: number;
     liters?: number;
@@ -113,12 +113,12 @@ const Analytics: React.FC = () => {
     // Vehicle Distribution
     const vCostMap: Record<string, number> = {};
     expenses.forEach(e => {
-        const vid = typeof e.vehicleId === 'object' ? (e.vehicleId as any)._id || (e.vehicleId as any).id : e.vehicleId;
+        const vid = typeof e.vehicleId === 'object' ? (e.vehicleId as any).id : e.vehicleId;
         if (vid) vCostMap[vid] = (vCostMap[vid] || 0) + (e.amount || 0);
     });
 
     const topVehicles = vehicles
-        .map(v => ({ name: v.licensePlate || v.name, cost: vCostMap[String(v._id || v.id)] || 0 }))
+        .map(v => ({ name: v.licensePlate || v.name, cost: vCostMap[String(v.id)] || 0 }))
         .sort((a, b) => b.cost - a.cost)
         .slice(0, 5);
 

@@ -1,5 +1,5 @@
 const express = require("express");
-const DBController = require("./db/sequelize");   // ← was ./db/mongoose
+const DBController = require("./db/sequelize");
 const path = require("path");
 const cors = require("cors");
 const app = express();

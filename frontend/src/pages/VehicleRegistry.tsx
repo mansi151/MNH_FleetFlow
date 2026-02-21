@@ -54,7 +54,7 @@ const VehicleRegistry: React.FC = () => {
     // ── open edit modal ───────────────────────────────────────────────────────
     const openEdit = (v: Vehicle) => {
         setEditMode(true);
-        setEditId(String(v.id || (v as any)._id));
+        setEditId(String(v.id));
         setFormData({
             name: v.name,
             model: v.model,
@@ -190,7 +190,7 @@ const VehicleRegistry: React.FC = () => {
                         </thead>
                         <tbody>
                             {displayed.map((vehicle: Vehicle) => (
-                                <tr key={vehicle.id || (vehicle as any)._id}>
+                                <tr key={vehicle.id}>
                                     <td className="ps-4">
                                         <div className="fw-bold">{vehicle.name}</div>
                                         <div className="small text-secondary">{vehicle.licensePlate}</div>

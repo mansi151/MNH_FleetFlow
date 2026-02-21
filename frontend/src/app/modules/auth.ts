@@ -8,7 +8,7 @@ export const getUserId = () => {
     if (userStr) {
         try {
             const user = JSON.parse(userStr);
-            return user._id;
+            return user.id;
         } catch (e) {
             return null;
         }

@@ -5,11 +5,10 @@ import {
 } from 'react-bootstrap';
 import { FiSearch, FiUser, FiAlertTriangle, FiPlus, FiShield, FiClock, FiFileText } from 'react-icons/fi';
 import APICallService from '../api/apiCallService';
-import { DRIVERS, CREATE_DRIVER, UPDATE_DRIVER } from '../api/apiEndPoints';
+import { DRIVERS, CREATE_DRIVER } from '../api/apiEndPoints';
 import { error as showError, success as showSuccess } from '../utils/toast';
 
 interface DriverProfile {
-    _id?: string;
     id: number;
     name: string;
     licenseNumber?: string;

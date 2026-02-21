@@ -4,7 +4,6 @@ import APICallService from '../../api/apiCallService';
 import { VEHICLES, CREATE_VEHICLE } from '../../api/apiEndPoints';
 
 export interface Vehicle {
-    _id: string;
     id: number;
     name: string;
     model: string;
