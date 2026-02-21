@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ─── Global Primary Color Override ─────────────────────────────────────────
+   Bootstrap reads these CSS variables for all bg-primary, text-primary,
+   btn-primary, border-primary, badge bg="primary", etc.
+   #F26B8A  = primary
+   #e04d6e  = primary-dark (hover)
+   #fde8ed  = primary-subtle (tint bg)
+   #9b1e3c  = primary-emphasis (dark text on light bg)
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+    --bs-primary: #F26B8A;
+    --bs-primary-rgb: 242, 107, 138;
+    --bs-primary-bg-subtle: #fde8ed;
+    --bs-primary-border-subtle: #f9c0d0;
+    --bs-primary-text-emphasis: #9b1e3c;
+    --bs-link-color: #F26B8A;
+    --bs-link-hover-color: #e04d6e;
+    --ff-primary: #F26B8A;
+    --ff-primary-dark: #e04d6e;
+    --ff-primary-tint: #fde8ed;
+    --ff-primary-text: #9b1e3c;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.calendar-container {
+    max-width: 400px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.5rem;
+}
+
+/* Bootstrap btn-primary override */
+.btn-primary {
+    background-color: var(--ff-primary) !important;
+    border-color: var(--ff-primary) !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--ff-primary-dark) !important;
+    border-color: var(--ff-primary-dark) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 138, 0.35) !important;
+}
+
+/* outline-primary */
+.btn-outline-primary {
+    color: var(--ff-primary) !important;
+    border-color: var(--ff-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--ff-primary) !important;
+    border-color: var(--ff-primary) !important;
+    color: #fff !important;
+}
+
+/* text-primary */
+.text-primary {
+    color: var(--ff-primary) !important;
+}
+
+/* bg-primary */
+.bg-primary {
+    background-color: var(--ff-primary) !important;
+}
+
+/* border-primary */
+.border-primary {
+    border-color: var(--ff-primary) !important;
+}
+
+/* badge bg="primary" */
+.badge.bg-primary {
+    background-color: var(--ff-primary) !important;
+}
+
+/* progress bar */
+.progress-bar.bg-primary,
+.bg-primary.progress-bar {
+    background-color: var(--ff-primary) !important;
+}
+
+/* focus rings */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--ff-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 138, 0.2) !important;
+}
+
+/* nav-link */
+.nav-link {
+    font-weight: 500;
+}
+
+/* active nav pill */
+.ff-nav-link.active {
+    background: var(--ff-primary) !important;
+    box-shadow: 0 2px 8px rgba(242, 107, 138, 0.35) !important;
+}
