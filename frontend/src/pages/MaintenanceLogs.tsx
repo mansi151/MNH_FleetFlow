@@ -8,10 +8,10 @@ import { fetchVehicles, selectAllVehicles } from '../store/slices/vehicleSlice';
 import type { Vehicle } from '../store/slices/vehicleSlice';
 import APICallService from '../api/apiCallService';
 import { MAINTENANCE, LOG_MAINTENANCE } from '../api/apiEndPoints';
-import { FiSearch, FiTool, FiAlertCircle, FiChevronDown } from 'react-icons/fi';
+import { FiSearch, FiTool, FiAlertCircle } from 'react-icons/fi';
 
 interface MaintenanceLog {
-    _id: string;
+    id: string;
     vehicleId: { _id: string; name: string; licensePlate: string };
     description: string;
     serviceDate: string;
@@ -26,7 +26,6 @@ const MaintenanceLogs: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
-    const [sortField, setSortField] = useState('');
     const [formData, setFormData] = useState({ vehicleId: '', description: '', cost: 0 });
 
     const fetchLogs = async () => {
@@ -72,8 +71,6 @@ const MaintenanceLogs: React.FC = () => {
         return <Badge bg={c.bg} text={c.bg === 'warning' ? 'dark' : undefined} className="rounded-pill px-3">{c.label}</Badge>;
     };
 
-    // Generate a short Log ID from MongoDB _id
-    const shortId = (id: string) => id?.slice(-5).toUpperCase() || '—';
 
     return (
         <Container fluid className="mt-4 px-4">
@@ -101,7 +98,7 @@ const MaintenanceLogs: React.FC = () => {
                         </InputGroup>
 
                         <div className="d-flex gap-2 ms-auto align-items-center">
-                            <Form.Select
+                            {/* <Form.Select
                                 size="sm"
                                 className="rounded-3 border border-secondary-subtle bg-light"
                                 style={{ width: 130 }}
@@ -111,7 +108,7 @@ const MaintenanceLogs: React.FC = () => {
                                 <option value="">Group by</option>
                                 <option value="vehicle">Vehicle</option>
                                 <option value="status">Status</option>
-                            </Form.Select>
+                            </Form.Select> */}
 
                             <Form.Select
                                 size="sm"
@@ -126,14 +123,14 @@ const MaintenanceLogs: React.FC = () => {
                                 <option value="Completed">Completed</option>
                             </Form.Select>
 
-                            <Button
+                            {/* <Button
                                 size="sm"
                                 variant="outline-secondary"
                                 className="rounded-3 px-3 d-flex align-items-center gap-1"
                                 onClick={() => { setSortField(''); setFilterStatus(''); setSearch(''); }}
                             >
                                 Sort by <FiChevronDown />
-                            </Button>
+                            </Button> */}
 
                             <Button
                                 variant="outline-primary"
@@ -163,8 +160,8 @@ const MaintenanceLogs: React.FC = () => {
                         </thead>
                         <tbody>
                             {filteredLogs.map(log => (
-                                <tr key={log._id}>
-                                    <td className="ps-4 text-primary fw-semibold">{shortId(log._id)}</td>
+                                <tr key={log.id}>
+                                    <td className="ps-4 text-primary fw-semibold">{log.id}</td>
                                     <td className="text-primary fw-semibold">{log.vehicleId?.name || '—'}</td>
                                     <td className="text-primary">{log.description || '—'}</td>
                                     <td className="text-secondary small">

@@ -69,9 +69,15 @@ const TripDispatcher: React.FC = () => {
         String(v._id || v.id) === formData.vehicleId
     );
 
-    // Only Off Duty drivers can be assigned
+    // Only Off Duty drivers with valid licenses can be assigned
     const availableDrivers = drivers.filter(d => {
         if (d.driverStatus !== 'Off Duty') return false;
+
+        // Block drivers with expired licenses
+        if (d.licenseExpiry && new Date(d.licenseExpiry) < new Date()) {
+            return false;
+        }
+
         if (selectedVehicle && d.licenseCategory) {
             return d.licenseCategory.includes(selectedVehicle.vehicleType ?? '');
         }

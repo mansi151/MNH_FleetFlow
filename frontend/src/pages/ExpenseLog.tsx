@@ -8,8 +8,12 @@ import APICallService from '../api/apiCallService';
 import { EXPENSES, LOG_EXPENSE, TRIPS } from '../api/apiEndPoints';
 
 interface TripExpense {
-    _id: string;
-    tripId: { _id: string; startLocation: string; endLocation: string; cargoWeight?: number } | null;
+    id: string;
+    tripId: {
+        _id: string; startLocation: string; endLocation: string; cargoWeight?: number;
+        startOdometer?: any;
+        endOdometer?: any
+    } | any;
     vehicleId: { _id: string; name: string; licensePlate: string } | string | null;
     driverName?: string;
     distance?: number;
@@ -35,8 +39,6 @@ const ExpenseLog: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
-    const [groupBy, setGroupBy] = useState('');
 
     const [formData, setFormData] = useState({
         vehicleId: '',
@@ -107,8 +109,7 @@ const ExpenseLog: React.FC = () => {
             const tripStr = trip ? `${trip.startLocation} ${trip.endLocation}` : '';
             const driver = (e.driverName || '').toLowerCase();
             return tripStr.toLowerCase().includes(q) || driver.includes(q);
-        })
-        .filter(e => !filterStatus || e.status === filterStatus);
+        });
 
     const getStatusBadge = (status: string) => {
         const map: Record<string, string> = { Done: 'success', Pending: 'warning', Cancelled: 'danger' };
@@ -173,34 +174,20 @@ const ExpenseLog: React.FC = () => {
                             </InputGroup.Text>
                             <Form.Control
                                 className="bg-light border-0 shadow-none"
-                                placeholder="Search bar ......"
+                                placeholder="Search by route or driver..."
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
                             />
                         </InputGroup>
 
                         <div className="d-flex gap-2 ms-auto align-items-center">
-                            <Form.Select size="sm" className="rounded-3 border border-secondary-subtle bg-light" style={{ width: 130 }}
-                                value={groupBy} onChange={e => setGroupBy(e.target.value)}>
-                                <option value="">Group by</option>
-                                <option value="type">Type</option>
-                                <option value="vehicle">Vehicle</option>
-                            </Form.Select>
-
-                            <Form.Select size="sm" className="rounded-3 border border-secondary-subtle bg-light" style={{ width: 130 }}
-                                value={filterStatus} onChange={e => setFilterStatus(e.target.value)}>
-                                <option value="">Filter</option>
-                                <option value="Done">Done</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </Form.Select>
-
                             <Button
                                 variant="outline-primary"
-                                className="rounded-3 px-4 fw-semibold ms-2"
+                                className="rounded-3 px-4 fw-semibold shadow-sm"
                                 onClick={() => setShowModal(true)}
+                                style={{ borderColor: '#F26B8A', color: '#F26B8A' }}
                             >
-                                <FiPlusCircle className="me-2" /> Add an Expense
+                                <FiPlusCircle className="me-2" /> Log New Expense
                             </Button>
                         </div>
                     </div>
@@ -223,12 +210,11 @@ const ExpenseLog: React.FC = () => {
                         </thead>
                         <tbody>
                             {filtered.map(exp => {
-                                const tripShortId = exp.tripId?._id?.slice(-5).toUpperCase() || '—';
                                 return (
-                                    <tr key={exp._id}>
-                                        <td className="ps-4 fw-semibold text-secondary">{tripShortId}</td>
+                                    <tr key={exp.id}>
+                                        <td className="ps-4 fw-semibold text-secondary">{exp.id}</td>
                                         <td className="fw-semibold">{exp.driverName || '—'}</td>
-                                        <td className="text-secondary">{exp.distance ? `${exp.distance} km` : '—'}</td>
+                                        <td className="text-secondary">{exp.tripId.startOdometer || exp.tripId.endOdometer ? `${exp.tripId.startOdometer || exp.tripId.endOdometer} km` : '—'}</td>
                                         <td className="fw-semibold text-warning">₹{exp.amount.toLocaleString()}</td>
                                         <td className="text-secondary">
                                             {exp.miscAmount ? `₹${exp.miscAmount.toLocaleString()}` : '—'}
@@ -271,7 +257,7 @@ const ExpenseLog: React.FC = () => {
                                             driverName: (selectedTrip as any)?.driver?.name || (selectedTrip as any)?.driverName || '',
                                             vehicleId: (selectedTrip as any)?.vehicleId?._id || (selectedTrip as any)?.vehicleId?.id || (selectedTrip as any)?.vehicleId || ''
                                         });
-                                        console.log("selectedTripselectedTrip",e.target.value)
+                                        console.log("selectedTripselectedTrip", e.target.value)
                                     }}
                                 >
                                     <option value="">Select trip ID...</option>
@@ -310,6 +296,19 @@ const ExpenseLog: React.FC = () => {
                         </Col>
 
                         <Col md={6}>
+                            <Form.Group>
+                                <Form.Label className="small fw-bold text-secondary">Fuel Quantity (Liters):</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    className="rounded-3 bg-light border-0"
+                                    placeholder="e.g. 150"
+                                    value={formData.liters}
+                                    onChange={e => setFormData({ ...formData, liters: e.target.value })}
+                                />
+                            </Form.Group>
+                        </Col>
+
+                        <Col md={12}>
                             <Form.Group>
                                 <Form.Label className="small fw-bold text-secondary">Misc Expense (₹):</Form.Label>
                                 <Form.Control

@@ -7,6 +7,7 @@ import APICallService from '../api/apiCallService';
 import { FiLock, FiEye, FiEyeOff, FiTruck, FiCheckCircle } from 'react-icons/fi';
 import { useStaticText } from '../utils/staticJSON';
 import { success } from '../utils/toast';
+import { RESETPASSWORD } from '../api/apiEndPoints';
 
 const PRIMARY = '#F26B8A';
 const PRIMARY_D = '#e04d6e';
@@ -35,7 +36,7 @@ const ResetPassword: React.FC = () => {
             if (!token) return;
             setLoading(true);
             try {
-                const response = await new APICallService('user/reset-password', {
+                const response = await new APICallService(RESETPASSWORD, {
                     token,
                     newPassword: values.password
                 }).callAPI();

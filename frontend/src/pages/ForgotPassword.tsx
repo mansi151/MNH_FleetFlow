@@ -7,6 +7,7 @@ import APICallService from '../api/apiCallService';
 import { FiMail, FiTruck, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import { useStaticText } from '../utils/staticJSON';
 import { success } from '../utils/toast';
+import { FORGOTPASSWORD } from '../api/apiEndPoints';
 
 const PRIMARY = '#F26B8A';
 const PRIMARY_D = '#e04d6e';
@@ -29,7 +30,7 @@ const ForgotPassword: React.FC = () => {
         onSubmit: async (values) => {
             setLoading(true);
             try {
-                const response = await new APICallService('user/forgot-password', { email: values.email }).callAPI();
+                const response = await new APICallService(FORGOTPASSWORD, { email: values.email }).callAPI();
                 if (response) {
                     success("Reset link generated successfully!");
                     setSubmitted(true);

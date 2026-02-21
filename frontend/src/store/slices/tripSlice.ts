@@ -15,6 +15,7 @@ export interface Trip {
     estimatedFuelCost?: number;
     dispatchDate?: string;
     completionDate?: string;
+    vehicle?:any;
 }
 
 interface TripState {

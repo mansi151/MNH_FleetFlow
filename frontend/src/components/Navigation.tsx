@@ -193,33 +193,56 @@ const Navigation: React.FC = () => {
                             <div style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 9,
-                                background: '#f8fafc',
-                                border: '1px solid #e5e7eb',
-                                borderRadius: 10,
-                                padding: '5px 12px 5px 6px',
+                                gap: 10,
+                                // background: '#ffffff',
+                                // border: '1px solid #e2e8f0',
+                                borderRadius: '12px',
+                                padding: '6px 14px 6px 6px',
+                                // boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                             }}>
-                                {/* Avatar circle */}
-                                <div className="ff-avatar">{initials}</div>
+                                {/* Avatar circle - using user's initials */}
+                                <div style={{
+                                    width: 38,
+                                    height: 38,
+                                    borderRadius: '50%',
+                                    background: '#F26B8A',
+                                    color: '#fff',
+                                    fontSize: '14px',
+                                    fontWeight: 700,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textTransform: 'uppercase'
+                                }}>
+                                    {initials}
+                                </div>
 
                                 {/* Name + role */}
-                                <div style={{ lineHeight: 1.2 }}>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>
-                                        {user?.username || 'User'}
+                                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', lineHeight: 1.1 }}>
+                                        {user?.username || 'User Profile'}
                                     </div>
-                                    <span
-                                        className="ff-role-chip"
-                                        style={{ background: roleMeta.bg, color: roleMeta.text, marginTop: 2 }}
-                                    >
-                                        {roleMeta.label}
-                                    </span>
+                                    <div style={{ marginTop: 2 }}>
+                                        <span
+                                            style={{
+                                                background: '#4f46e5', // Royal Blue for Manager style
+                                                color: '#fff',
+                                                padding: '1px 12px',
+                                                borderRadius: '20px',
+                                                fontSize: '11px',
+                                                fontWeight: 600,
+                                                display: 'inline-block'
+                                            }}
+                                        >
+                                            {roleMeta.label}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Logout */}
-                            <button className="ff-logout-btn" onClick={handleLogout}>
-                                <FiLogOut size={14} />
-                                Logout
+                            <button className="ff-logout-btn p-2" onClick={handleLogout}>
+                                <FiLogOut size={16} />
                             </button>
                         </div>
                     </Navbar.Collapse>

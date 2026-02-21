@@ -102,7 +102,7 @@ const Analytics: React.FC = () => {
     const efficiencyChart: ApexOptions = {
         chart: { type: 'line', toolbar: { show: false } },
         stroke: { curve: 'smooth', width: 3 },
-        colors: ['#0d6efd'],
+        colors: ['#F26B8A'],
         markers: { size: 4, strokeColors: '#fff', strokeWidth: 2 },
         xaxis: { categories: MONTHS, labels: { style: { colors: '#6c757d' } } },
         yaxis: { labels: { style: { colors: '#6c757d' } } },
@@ -169,37 +169,37 @@ const Analytics: React.FC = () => {
             <Row className="mb-4 g-3 text-center">
                 <Col md={3}>
                     <Card className="border-0 shadow-sm rounded-4 bg-white border-start border-4 border-primary">
-                        <Card.Body className="p-4">
-                            <div className="small text-secondary fw-semibold mb-1">Estimated Revenue</div>
-                            <h3 className="fw-bold mb-0 text-dark">{fmt(totalRev)}</h3>
-                            <div className="small text-primary mt-2">↑ Driven by cargo & distance</div>
+                        <Card.Body className="p-3">
+                            <div className="small text-secondary fw-semibold mb-1" style={{ fontSize: '11px' }}>Estimated Revenue</div>
+                            <h4 className="fw-bold mb-0 text-dark">{fmt(totalRev)}</h4>
+                            <div className="small text-primary mt-1" style={{ fontSize: '11px' }}>↑ Driven by cargo & distance</div>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col md={3}>
                     <Card className="border-0 shadow-sm rounded-4 bg-white border-start border-4 border-success">
-                        <Card.Body className="p-4">
-                            <div className="small text-secondary fw-semibold mb-1">Fuel Cost / KM</div>
-                            <h3 className="fw-bold mb-0 text-success">₹{costPerKm}</h3>
-                            <div className="small text-success mt-2">Fleet efficiency metric</div>
+                        <Card.Body className="p-3">
+                            <div className="small text-secondary fw-semibold mb-1" style={{ fontSize: '11px' }}>Fuel Cost / KM</div>
+                            <h4 className="fw-bold mb-0 text-success">₹{costPerKm}</h4>
+                            <div className="small text-success mt-1" style={{ fontSize: '11px' }}>Fleet efficiency metric</div>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col md={3}>
                     <Card className="border-0 shadow-sm rounded-4 bg-white border-start border-4 border-info">
-                        <Card.Body className="p-4">
-                            <div className="small text-secondary fw-semibold mb-1">Profit Margin</div>
-                            <h3 className="fw-bold mb-0 text-info">{profitMargin}%</h3>
-                            <div className="small text-info mt-2">Net operational ROI</div>
+                        <Card.Body className="p-3">
+                            <div className="small text-secondary fw-semibold mb-1" style={{ fontSize: '11px' }}>Profit Margin</div>
+                            <h4 className="fw-bold mb-0 text-info">{profitMargin}%</h4>
+                            <div className="small text-info mt-1" style={{ fontSize: '11px' }}>Net operational ROI</div>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col md={3}>
                     <Card className="border-0 shadow-sm rounded-4 bg-white border-start border-4 border-dark">
-                        <Card.Body className="p-4">
-                            <div className="small text-secondary fw-semibold mb-1">Total Distance</div>
-                            <h3 className="fw-bold mb-0 text-dark">{totalDistance.toLocaleString()} km</h3>
-                            <div className="small text-secondary mt-2">Closed trip odometers</div>
+                        <Card.Body className="p-3">
+                            <div className="small text-secondary fw-semibold mb-1" style={{ fontSize: '11px' }}>Total Distance</div>
+                            <h4 className="fw-bold mb-0 text-dark">{totalDistance.toLocaleString()} km</h4>
+                            <div className="small text-secondary mt-1" style={{ fontSize: '11px' }}>Closed trip odometers</div>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -210,7 +210,10 @@ const Analytics: React.FC = () => {
                 <Col lg={7}>
                     <Card className="border-0 shadow-sm rounded-4 h-100">
                         <Card.Body className="p-4">
-                            <h6 className="fw-bold mb-3">Fuel Efficiency Trend (km/L)</h6>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h6 className="fw-bold mb-0">Fuel Efficiency Trend (km/L)</h6>
+                                <span className="small text-secondary fw-normal" style={{ fontSize: '10px' }}>*Based on liters logged in expenses</span>
+                            </div>
                             {totalDistance > 0 ? (
                                 <ReactApexChart options={efficiencyChart} series={efficiencySeries} type="line" height={260} />
                             ) : (
@@ -237,7 +240,7 @@ const Analytics: React.FC = () => {
             <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
                 <Card.Header className="bg-white border-0 text-center py-3">
                     <h5 className="fw-bold mb-0 border rounded-pill d-inline-block px-4 py-1"
-                    style={{ color: '#F26B8A', borderColor: '#F26B8A'  }}>
+                        style={{ color: '#F26B8A', borderColor: '#F26B8A' }}>
                         Financial Summary of Month
                     </h5>
                 </Card.Header>
@@ -276,7 +279,7 @@ const Analytics: React.FC = () => {
             </Card>
 
             {/* ── Fleet Status Overview ────────────────────────────────────── */}
-            <Card className="border-0 shadow-sm rounded-4 mt-4">
+            <Card className="border-0 shadow-sm rounded-4 my-4">
                 <Card.Body className="p-4">
                     <h6 className="fw-bold mb-3"><FiTrendingUp className="me-2 text-primary" />Fleet Status Overview</h6>
                     <Row className="g-3">

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Col, Card, Badge, Table, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { fetchVehicles, selectAllVehicles } from '../store/slices/vehicleSlice';
@@ -79,18 +79,18 @@ const Dashboard: React.FC = () => {
                     <Col md={3} key={label}>
                         <Card
                             className="border-0 shadow-sm rounded-4 h-100"
-                            style={{ background: bg, borderLeft: `4px solid ${accent} !important` }}
+                            style={{ background: bg }}
                         >
-                            <Card.Body className="d-flex align-items-center p-4" style={{ borderLeft: `4px solid ${accent}`, borderRadius: 16 }}>
+                            <Card.Body className="d-flex align-items-center p-3">
                                 <div
-                                    className="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center"
-                                    style={{ background: accent + '1a', color: accent, flexShrink: 0, width: 52, height: 52 }}
+                                    className="rounded-circle p-2 me-3 d-flex align-items-center justify-content-center"
+                                    style={{ background: accent + '1a', color: accent, flexShrink: 0, width: 42, height: 42 }}
                                 >
                                     {icon}
                                 </div>
                                 <div>
-                                    <div className="small fw-semibold mb-1" style={{ color: textColor, opacity: 0.8 }}>{label}</div>
-                                    <h3 className="mb-0 fw-bold" style={{ color: textColor }}>{value}</h3>
+                                    <div className="small fw-semibold mb-0" style={{ color: textColor, opacity: 0.8, fontSize: '11px' }}>{label}</div>
+                                    <h4 className="mb-0 fw-bold" style={{ color: textColor }}>{value}</h4>
                                 </div>
                             </Card.Body>
                         </Card>
@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
                                         <tr key={trip._id}>
                                             <td className="ps-4">
                                                 <div className="d-flex align-items-center">
-                                                    <div className="fw-bold">{(trip.vehicleId as any)?.name || 'N/A'}</div>
+                                                    <div className="fw-bold">{(trip.vehicle as any)?.name || 'N/A'}</div>
                                                     <div className="ms-2 badge bg-light text-dark border">{(trip.vehicleId as any)?.licensePlate}</div>
                                                 </div>
                                             </td>
@@ -133,7 +133,8 @@ const Dashboard: React.FC = () => {
                                                 <Badge bg={
                                                     trip.status === 'Dispatched' ? 'primary' :
                                                         trip.status === 'Completed' ? 'success' :
-                                                            'secondary'
+                                                            trip.status === 'Cancelled' ? 'danger' :
+                                                                'secondary'
                                                 } className="rounded-pill px-3">
                                                     {trip.status}
                                                 </Badge>
@@ -155,29 +156,67 @@ const Dashboard: React.FC = () => {
                 {/* Filters sidebar / small summary */}
                 <Col lg={4}>
                     <Card className="border-0 shadow-sm rounded-4 h-100">
-                        <Card.Header className="bg-transparent border-0 py-3">
-                            <h5 className="mb-0 fw-bold">Vehicle Distribution</h5>
+                        <Card.Header className="bg-transparent border-0 pt-3 px-4 d-flex justify-content-between align-items-center">
+                            <h5 className="mb-0 fw-bold" style={{ fontSize: '1.1rem' }}>Vehicle Distribution</h5>
+                            <Badge bg="light" text="dark" className="border rounded-pill px-3 py-2 fw-bold" style={{ fontSize: '11px' }}>
+                                Total: {vehicles.length}
+                            </Badge>
                         </Card.Header>
-                        <Card.Body>
-                            <div className="mt-4">
-                                <div className="d-flex justify-content-between mb-2">
-                                    <span className="small">Trucks</span>
-                                    <span className="small fw-bold">{vehicles.filter((v: Vehicle) => v.vehicleType === 'Truck').length}</span>
-                                </div>
-                                <div className="progress rounded-pill overflow-hidden" style={{ height: '6px' }}>
-                                    <div className="progress-bar bg-primary" style={{ width: '65%' }} role="progressbar"></div>
-                                </div>
-                            </div>
+                        <Card.Body className="px-4 text-center">
+                            {(() => {
+                                const truckCount = vehicles.filter((v: Vehicle) => v.vehicleType === 'Truck').length;
+                                const vanCount = vehicles.filter((v: Vehicle) => v.vehicleType === 'Van').length;
+                                const otherCount = vehicles.length - truckCount - vanCount;
+                                const total = vehicles.length || 1;
 
-                            <div className="mt-4">
-                                <div className="d-flex justify-content-between mb-2">
-                                    <span className="small">Vans</span>
-                                    <span className="small fw-bold">{vehicles.filter((v: Vehicle) => v.vehicleType === 'Van').length}</span>
-                                </div>
-                                <div className="progress rounded-pill overflow-hidden" style={{ height: '6px' }}>
-                                    <div className="progress-bar bg-success" style={{ width: '45%' }} role="progressbar"></div>
-                                </div>
-                            </div>
+                                return (
+                                    <div className="mt-2 text-start">
+                                        <div className="mb-4">
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <span className="small fw-semibold text-dark">Trucks</span>
+                                                <span className="small fw-bold text-dark">{truckCount}</span>
+                                            </div>
+                                            <div className="progress rounded-pill overflow-hidden" style={{ height: '7px', background: '#f1f5f9' }}>
+                                                <div
+                                                    className="progress-bar"
+                                                    style={{ width: `${(truckCount / total) * 100}%`, background: '#F26B8A' }}
+                                                    role="progressbar"
+                                                ></div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-4">
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <span className="small fw-semibold text-dark">Vans</span>
+                                                <span className="small fw-bold text-dark">{vanCount}</span>
+                                            </div>
+                                            <div className="progress rounded-pill overflow-hidden" style={{ height: '7px', background: '#f1f5f9' }}>
+                                                <div
+                                                    className="progress-bar"
+                                                    style={{ width: `${(vanCount / total) * 100}%`, background: '#10b981' }}
+                                                    role="progressbar"
+                                                ></div>
+                                            </div>
+                                        </div>
+
+                                        {otherCount > 0 && (
+                                            <div className="mb-4">
+                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                    <span className="small fw-semibold text-dark">Other Assets</span>
+                                                    <span className="small fw-bold text-dark">{otherCount}</span>
+                                                </div>
+                                                <div className="progress rounded-pill overflow-hidden" style={{ height: '7px', background: '#f1f5f9' }}>
+                                                    <div
+                                                        className="progress-bar bg-warning"
+                                                        style={{ width: `${(otherCount / total) * 100}%` }}
+                                                        role="progressbar"
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })()}
                         </Card.Body>
                     </Card>
                 </Col>

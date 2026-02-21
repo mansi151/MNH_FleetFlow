@@ -4,6 +4,8 @@ import * as constants from "../utils/constants";
 export const LOGIN = "user/login" + " " + constants.POST_RAW;
 export const LOGOUT = "user/logout" + " " + constants.POST_RAW;
 export const SIGNUP = "user/register" + " " + constants.POST_RAW;
+export const FORGOTPASSWORD = "user/forgot-password" + " " + constants.POST_RAW;
+export const RESETPASSWORD = "user/reset-password" + " " + constants.POST_RAW;
 
 // ─── Vehicles ────────────────────────────────────────────────────────────────
 export const VEHICLES = "fleet/vehicles" + " " + constants.GET;
